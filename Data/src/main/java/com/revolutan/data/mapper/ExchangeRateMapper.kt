@@ -8,7 +8,7 @@ class ExchangeRateMapper : EntityMapper<ExchangeRateEntity, ExchangeRate> {
         return ExchangeRate(entity.base, entity.date, entity.rates)
     }
 
-    override fun mapFromData(data: ExchangeRate): ExchangeRateEntity {
+    override fun mapToEntity(data: ExchangeRate): ExchangeRateEntity {
         return ExchangeRateEntity(data.base, data.date, data.rates)
     }
 }
