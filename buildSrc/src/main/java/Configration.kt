@@ -3,8 +3,8 @@ package com.revolutan.exchange
 
 object Modules {
     val app = ":app"
-    val data = ":data"
-    val domain = ":domain"
+    val data = ":Data"
+    val domain = ":Domain"
     val remote = ":remote"
     val presentation = ":presentation"
 }

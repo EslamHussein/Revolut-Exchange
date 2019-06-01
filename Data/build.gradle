@@ -1,0 +1,23 @@
+
+import com.revolutan.exchange.Libraries
+import com.revolutan.exchange.Configration
+import com.revolutan.exchange.Modules
+
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(Modules.domain)
+
+    implementation Libraries.Kotlin.kotlinStdlib
+    implementation Libraries.RX.rxKotlin
+
+//    testImplementation dataTestDependencies.junit
+//    testImplementation dataTestDependencies.kotlinJUnit
+//    testImplementation dataTestDependencies.mockito
+//    testImplementation dataTestDependencies.assertj
+
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
