@@ -1,6 +1,6 @@
 package com.revolutan.data.mapper
 
-import com.revolutan.data.test.ExchangeRateDataFactory
+import com.revolutan.data.test.ExchangeRateFakeDataFactory
 import org.junit.Assert
 import org.junit.Test
 
@@ -9,7 +9,7 @@ class ExchangeRateMapperTest {
     @Test
     fun mapFromEntity() {
 
-        val entity = ExchangeRateDataFactory.exchangeRateEntity()
+        val entity = ExchangeRateFakeDataFactory.exchangeRateEntity()
         val model = mapper.mapFromEntity(entity)
 
         Assert.assertEquals(entity.base, model.base)
@@ -22,7 +22,7 @@ class ExchangeRateMapperTest {
     @Test
     fun mapToEntity() {
 
-        val model = ExchangeRateDataFactory.exchangeRate()
+        val model = ExchangeRateFakeDataFactory.exchangeRate()
         val entity = mapper.mapToEntity(model)
 
         Assert.assertEquals(entity.base, model.base)

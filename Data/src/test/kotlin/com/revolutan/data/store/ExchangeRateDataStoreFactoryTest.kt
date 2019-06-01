@@ -6,23 +6,23 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class ExchangeRateDateStoreFactoryTest {
+class ExchangeRateDataStoreFactoryTest {
     @Mock
     private lateinit var exchangeRateRemoteDataStore: ExchangeRateRemoteDataStore
-    private lateinit var exchangeRateDateStoreFactory: ExchangeRateDateStoreFactory
+    private lateinit var exchangeRateDataStoreFactory: ExchangeRateDataStoreFactory
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        exchangeRateDateStoreFactory = ExchangeRateDateStoreFactory(exchangeRateRemoteDataStore)
+        exchangeRateDataStoreFactory = ExchangeRateDataStoreFactory(exchangeRateRemoteDataStore)
     }
 
     @Test
     fun getDataStoreReturnRemoteDataStore() {
-        Assert.assertEquals(exchangeRateRemoteDataStore, exchangeRateDateStoreFactory.getDataStore())
+        Assert.assertEquals(exchangeRateRemoteDataStore, exchangeRateDataStoreFactory.getDataStore())
     }
 
     @Test
     fun getDataStoreNotNull() {
-        Assert.assertNotNull(exchangeRateDateStoreFactory.getDataStore())
+        Assert.assertNotNull(exchangeRateDataStoreFactory.getDataStore())
     }
 }

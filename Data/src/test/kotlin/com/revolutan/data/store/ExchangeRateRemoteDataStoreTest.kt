@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.revolutan.data.model.ExchangeRateEntity
 import com.revolutan.data.repository.ExchangeRateDataStore
 import com.revolutan.data.repository.ExchangeRateRemote
-import com.revolutan.data.test.ExchangeRateDataFactory
+import com.revolutan.data.test.ExchangeRateFakeDataFactory
 import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
@@ -20,7 +20,7 @@ class ExchangeRateRemoteDataStoreTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        exchangeRateResponse = ExchangeRateDataFactory.exchangeRateEntity()
+        exchangeRateResponse = ExchangeRateFakeDataFactory.exchangeRateEntity()
         remoteDataStore = ExchangeRateRemoteDataStore(remote)
         whenever(remote.getExchangeRate("USD")).thenReturn(Observable.just(exchangeRateResponse))
     }

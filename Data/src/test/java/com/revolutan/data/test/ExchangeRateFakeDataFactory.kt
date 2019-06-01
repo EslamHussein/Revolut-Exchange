@@ -6,7 +6,7 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.HashMap
 
-object ExchangeRateDataFactory {
+object ExchangeRateFakeDataFactory {
 
 
     private fun randomString() = UUID.randomUUID().toString()
