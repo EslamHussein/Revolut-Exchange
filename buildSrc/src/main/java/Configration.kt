@@ -81,18 +81,20 @@ public object Libraries {
     object RX {
         private const val rxAndroidVersion = "2.1.1"
         private const val rxKotlinVersion = "2.3.0"
+        private const val rxJavaVerions="2.2.9"
         const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
         const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
+        const val rxJava = "io.reactivex.rxjava2:rxjava:${rxJavaVerions}"
 
     }
 
     object Testing {
 
-        private const val supportTestRunnerVersion = "1.0.2"
-        private const val espressoVersion = "3.1.1"
-        private const val mockitoForKotlinVersion = "2.1.0"
-        private const val androidXCoreTestingVersion = "2.0.0-alpha1"
+        private const val junitVersion = "4.12"
+        private const val kotlinMockito = "2.1.0"
 
+        const val junit = "junit:junit:$junitVersion"
+        const val mockito = "com.nhaarman.mockitokotlin2:mockito-kotlin:$kotlinMockito"
     }
 
 }
