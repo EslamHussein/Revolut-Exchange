@@ -1,0 +1,31 @@
+import com.revolutan.exchange.Libraries
+import com.revolutan.exchange.Modules
+
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(Modules.data)
+
+    implementation Libraries.Kotlin.kotlinStdlib
+
+    implementation Libraries.RX.rxJava
+    implementation Libraries.RX.rxKotlin
+
+
+    implementation Libraries.Network.retrofit
+    implementation Libraries.Network.retrofitGsonConverter
+    implementation Libraries.Network.rxAdapter
+    implementation Libraries.Network.okhttpLoggingInterceptor
+    implementation Libraries.Network.okhttpMockServer
+
+    implementation Libraries.Koin.koin
+    implementation Libraries.Koin.koinViewModel
+
+    testImplementation Libraries.Testing.junit
+    testImplementation Libraries.Testing.mockito
+
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

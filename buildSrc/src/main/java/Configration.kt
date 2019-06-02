@@ -5,7 +5,7 @@ object Modules {
     val app = ":app"
     val data = ":Data"
     val domain = ":Domain"
-    val remote = ":remote"
+    val remote = ":Remote"
     val presentation = ":presentation"
 }
 
@@ -20,11 +20,6 @@ public object Configration {
         const val versionName = "1.0"
         const val kotlinVersion = "1.3.30"
         const val applicationId = "com.revolutan.exchange"
-    }
-
-    object RemoteConfig {
-        const val DEV_BASE_URL = "\"https://revolut.duckdns.org\""
-        const val PRODUCTION_BASE_URL = "\"https://revolut.duckdns.org\""
     }
 
     object ClassPath {
@@ -42,9 +37,8 @@ public object Libraries {
     object Network {
         private const val retrofitVersion = "2.5.0"
         private const val okhttpVersion = "3.12.0"
-        private const val rxAadapterVersion = "2.6.0"
 
-        const val rxAadapter = "com.squareup.retrofit2:adapter-rxjava2:$rxAadapterVersion"
+        const val rxAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
         const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
         const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
         const val okhttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
@@ -72,7 +66,7 @@ public object Libraries {
     }
 
     object Koin {
-        private const val koinVersion = "2.0.0-rc-2"
+        private const val koinVersion = "2.0.1"
         const val koin = "org.koin:koin-android:$koinVersion"
         const val koinViewModel = "org.koin:koin-androidx-viewmodel:$koinVersion"
         const val koinTest = "org.koin:koin-test:$koinVersion"
