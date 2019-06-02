@@ -1,10 +1,14 @@
 package com.revolutan.remote.di
 
 import com.google.gson.GsonBuilder
+import com.revolutan.data.repository.ExchangeRateRemote
+import com.revolutan.remote.ExchangeRateRemoteImpl
+import com.revolutan.remote.mapper.ExchangeRateModelMapper
 import com.revolutan.remote.service.CloudConfig
 import com.revolutan.remote.service.ExchangeRateService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -31,7 +35,9 @@ val remoteModule = module {
             .build()
     }
 
-
     factory { get<Retrofit>().create(ExchangeRateService::class.java) }
+    factory { ExchangeRateModelMapper() }
+    factory { ExchangeRateRemoteImpl(get(), get()) } bind ExchangeRateRemote::class
+
 
 }
