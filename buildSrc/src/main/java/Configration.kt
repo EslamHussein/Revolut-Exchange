@@ -50,6 +50,8 @@ public object Libraries {
         private const val materialVersion = "1.0.0-rc01"
         private const val constraintLayoutVersion = "2.0.0-alpha2"
         private const val ktxVersion = "1.0.2"
+        private const val lifecycleVersion = "2.0.0"
+
 
         const val coreKTX = "androidx.core:core-ktx:$ktxVersion"
         const val appcompat = "androidx.appcompat:appcompat:$appCompact"
@@ -57,6 +59,8 @@ public object Libraries {
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
         const val material = "com.google.android.material:material:$materialVersion"
+        const val lifecycleViewModel="androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+        const val lifecycleLiveData= "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
     }
 
 
