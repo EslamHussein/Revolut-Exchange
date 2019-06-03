@@ -17,6 +17,4 @@ class ExchangeRateViewMapperTest {
         Assert.assertEquals(data.date, dataView.date)
         Assert.assertEquals(data.rates, dataView.rates)
     }
-
-
 }
