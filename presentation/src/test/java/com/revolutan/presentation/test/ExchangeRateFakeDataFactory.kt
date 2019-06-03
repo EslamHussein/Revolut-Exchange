@@ -1,5 +1,6 @@
 package com.revolutan.presentation.test
 
+import com.revolutan.domain.model.Currency
 import com.revolutan.domain.model.ExchangeRate
 import com.revolutan.presentation.model.ExchangeRateView
 import java.util.*
@@ -46,5 +47,10 @@ object ExchangeRateFakeDataFactory {
         rates[randomString()] = randomDouble()
         rates[randomString()] = randomDouble()
         return ExchangeRateView(base = randomString(), date = randomString(), rates = rates)
+    }
+
+    fun getCurrency(): Currency {
+
+        return Currency(randomString())
     }
 }

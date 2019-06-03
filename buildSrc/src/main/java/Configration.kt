@@ -61,6 +61,9 @@ public object Libraries {
         const val material = "com.google.android.material:material:$materialVersion"
         const val lifecycleViewModel="androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
         const val lifecycleLiveData= "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
+        const val lifecycleTest="androidx.arch.core:core-testing:$lifecycleVersion"
+
+
     }
 
 

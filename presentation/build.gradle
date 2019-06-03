@@ -44,8 +44,12 @@ dependencies {
 
     implementation Libraries.Koin.koin
     implementation Libraries.Koin.koinViewModel
-    
+
     implementation Libraries.Koin.koinTest
+
+    testImplementation Libraries.Testing.junit
+    testImplementation Libraries.Testing.mockito
+    testImplementation Libraries.AndroidXSupport.lifecycleTest
 
 }
 repositories {

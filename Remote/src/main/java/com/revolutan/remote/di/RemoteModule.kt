@@ -7,7 +7,6 @@ import com.revolutan.remote.mapper.ExchangeRateModelMapper
 import com.revolutan.remote.service.CloudConfig
 import com.revolutan.remote.service.ExchangeRateService
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -17,7 +16,6 @@ import java.util.concurrent.TimeUnit
 
 val remoteModule = module {
 
-    single { HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY) }
     single {
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(CloudConfig.CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -38,6 +36,4 @@ val remoteModule = module {
     factory { get<Retrofit>().create(ExchangeRateService::class.java) }
     factory { ExchangeRateModelMapper() }
     factory { ExchangeRateRemoteImpl(get(), get()) } bind ExchangeRateRemote::class
-
-
 }
