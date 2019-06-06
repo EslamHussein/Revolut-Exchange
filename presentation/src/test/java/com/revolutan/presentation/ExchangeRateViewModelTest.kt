@@ -1,62 +1,82 @@
 package com.revolutan.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.revolutan.domain.interactor.exchangeRate.GetCurrenciesUseCase
+import com.nhaarman.mockitokotlin2.*
 import com.revolutan.domain.interactor.exchangeRate.GetExchangeRateUseCase
+import com.revolutan.domain.interactor.exchangeRate.SortCurrenciesUseCase
 import com.revolutan.domain.model.ExchangeRate
+import com.revolutan.presentation.ExchangeRateViewModel.ExchangeRateSubscriber
+import com.revolutan.presentation.error.ErrorHandler
 import com.revolutan.presentation.mapper.CurrenciesViewMapper
-import com.revolutan.presentation.mapper.ExchangeRateViewMapper
+import com.revolutan.presentation.state.ResourceState
+import com.revolutan.presentation.test.ExchangeRateFakeDataFactory
 import io.reactivex.observers.DisposableObserver
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import java.io.IOException
 
+@RunWith(JUnit4::class)
 class ExchangeRateViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Mock
-    private lateinit var getExchangeRateUseCase: GetExchangeRateUseCase
+    private var getExchangeRateUseCase = mock<GetExchangeRateUseCase>()
 
-    @Mock
-    private lateinit var getCurrenciesUseCase: GetCurrenciesUseCase
+    private var sortCurrenciesUseCase = mock<SortCurrenciesUseCase>()
 
-    @Mock
-    private lateinit var exchangeRateViewMapper: ExchangeRateViewMapper
-    @Mock
-    private lateinit var currenciesViewMapper: CurrenciesViewMapper
+    private var currenciesViewMapper = mock<CurrenciesViewMapper>()
+
+    private var errorHandler = mock<ErrorHandler>()
 
 
     private lateinit var exchangeRateViewModel: ExchangeRateViewModel
 
-    @Captor
-    lateinit var captor: ArgumentCaptor<DisposableObserver<ExchangeRate>>
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+
         exchangeRateViewModel = ExchangeRateViewModel(
-            getExchangeRateUseCase, getCurrenciesUseCase,
-            exchangeRateViewMapper, currenciesViewMapper
+            errorHandler,
+            getExchangeRateUseCase,
+            sortCurrenciesUseCase,
+            currenciesViewMapper
         )
     }
 
     @Test
-    fun test() {
+    fun getExchangeRateExecutesUseCase() {
         exchangeRateViewModel.updateExchangeRate()
-        verify(getExchangeRateUseCase, times(1)).execute(any(), null)
+
+        verify(getExchangeRateUseCase, times(1)).execute(any(), anyOrNull())
     }
 
     @Test
-    fun tests() {
+    fun `get exchange rate success`() {
+        val exchangeRate = ExchangeRateFakeDataFactory.getExchangeRate()
+
+        given(getExchangeRateUseCase.execute(any(), eq(GetExchangeRateUseCase.Params(base = "EUR")))).will {
+            val observer = it.arguments[0] as DisposableObserver<ExchangeRate>
+            observer.onNext(exchangeRate)
+            observer.onComplete()
+
+        }
         exchangeRateViewModel.updateExchangeRate()
-        verify(getExchangeRateUseCase, times(1)).execute(any(), null)
+        Assert.assertEquals(ResourceState.SUCCESS, exchangeRateViewModel.getExchangeRate().value?.status)
+    }
+
+    @Test
+    fun `get exchange rate failure no internet connection`() {
+
+        given(getExchangeRateUseCase.execute(any(), eq(GetExchangeRateUseCase.Params(base = "EUR")))).will {
+            val observer = it.arguments[0] as DisposableObserver<ExchangeRate>
+            observer.onError(IOException("No internet connection"))
+            observer.onComplete()
+        }
+        exchangeRateViewModel.updateExchangeRate()
+        Assert.assertEquals(ResourceState.ERROR, exchangeRateViewModel.getExchangeRate().value?.status)
     }
 }
