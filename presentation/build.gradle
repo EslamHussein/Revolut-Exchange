@@ -1,0 +1,58 @@
+import com.revolutan.exchange.Libraries
+import com.revolutan.exchange.Modules
+import com.revolutan.exchange.Configration
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+
+
+android {
+    compileSdkVersion Configration.Android.compileSdk
+
+
+    defaultConfig {
+        minSdkVersion Configration.Android.mindSdk
+        targetSdkVersion Configration.Android.targetSdk
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(Modules.domain)
+
+    implementation Libraries.Kotlin.kotlinStdlib
+
+    implementation Libraries.AndroidXSupport.lifecycleViewModel
+    implementation Libraries.AndroidXSupport.lifecycleLiveData
+
+    implementation Libraries.RX.rxJava
+    implementation Libraries.RX.rxKotlin
+
+    implementation Libraries.Koin.koin
+    implementation Libraries.Koin.koinViewModel
+
+    implementation Libraries.Koin.koinTest
+
+    testImplementation Libraries.Testing.junit
+    testImplementation Libraries.Testing.mockito
+    testImplementation Libraries.AndroidXSupport.lifecycleTest
+
+}
+repositories {
+    google()
+    mavenCentral()
+}

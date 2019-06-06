@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Revolut Exchange</string>
+    <string name="loading">Loading</string>
+    <string name="currency_default_value">1.0</string>
+    <string name="currency_value_formatter">%.3f</string>
 </resources>
