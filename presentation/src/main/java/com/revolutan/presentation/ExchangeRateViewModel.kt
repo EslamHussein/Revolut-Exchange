@@ -38,7 +38,7 @@ class ExchangeRateViewModel(
     }
 
     fun updateExchangeRate() {
-//        exchangeRateLiveDate.postValue(Resource(ResourceState.LOADING, null, null))
+        exchangeRateLiveDate.postValue(Resource(ResourceState.LOADING, null, null))
         getExchangeRateUseCase.execute(
             ExchangeRateSubscriber(),
             GetExchangeRateUseCase.Params.fromExchangeRate(currentExchangeCurrency.currency)
