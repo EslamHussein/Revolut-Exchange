@@ -59,9 +59,9 @@ public object Libraries {
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
         const val material = "com.google.android.material:material:$materialVersion"
-        const val lifecycleViewModel="androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-        const val lifecycleLiveData= "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
-        const val lifecycleTest="androidx.arch.core:core-testing:$lifecycleVersion"
+        const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+        const val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
+        const val lifecycleTest = "androidx.arch.core:core-testing:$lifecycleVersion"
 
 
     }
@@ -82,10 +82,10 @@ public object Libraries {
     object RX {
         private const val rxAndroidVersion = "2.1.1"
         private const val rxKotlinVersion = "2.3.0"
-        private const val rxJavaVerions="2.2.9"
+        private const val rxJavaVersion = "2.2.9"
         const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
         const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
-        const val rxJava = "io.reactivex.rxjava2:rxjava:${rxJavaVerions}"
+        const val rxJava = "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
 
     }
 

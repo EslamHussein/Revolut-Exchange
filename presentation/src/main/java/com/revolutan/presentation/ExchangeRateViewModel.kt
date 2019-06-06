@@ -3,48 +3,45 @@ package com.revolutan.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.revolutan.domain.interactor.exchangeRate.GetCurrenciesUseCase
 import com.revolutan.domain.interactor.exchangeRate.GetExchangeRateUseCase
+import com.revolutan.domain.interactor.exchangeRate.SortCurrenciesUseCase
 import com.revolutan.domain.model.Currency
 import com.revolutan.domain.model.ExchangeRate
+import com.revolutan.presentation.error.ErrorHandler
 import com.revolutan.presentation.mapper.CurrenciesViewMapper
-import com.revolutan.presentation.mapper.ExchangeRateViewMapper
 import com.revolutan.presentation.model.CurrencyView
-import com.revolutan.presentation.model.ExchangeRateView
+import com.revolutan.presentation.model.ExchangeView
 import com.revolutan.presentation.state.Resource
 import com.revolutan.presentation.state.ResourceState
 import io.reactivex.observers.DisposableObserver
-import io.reactivex.observers.DisposableSingleObserver
 
 class ExchangeRateViewModel(
+    private val errorHandler: ErrorHandler,
     private val getExchangeRateUseCase: GetExchangeRateUseCase,
-    private val getCurrenciesUseCase: GetCurrenciesUseCase,
-    private val exchangeRateViewMapper: ExchangeRateViewMapper,
+    private val sortCurrenciesUseCase: SortCurrenciesUseCase,
     private val currenciesViewMapper: CurrenciesViewMapper
 ) : ViewModel() {
 
-    private val exchangeRateLiveDate: MutableLiveData<Resource<ExchangeRateView>> = MutableLiveData()
-    private val currencyListLiveData: MutableLiveData<Resource<List<CurrencyView>>> = MutableLiveData()
-    private var currentExchangeCurrency: String = "EUR"
+    private val exchangeRateLiveDate: MutableLiveData<Resource<ExchangeView>> = MutableLiveData()
+    private var currentExchangeCurrency: Currency = Currency("EUR")
+    private var isUpdating: Boolean = false
 
 
-    fun getExchangeRate(): LiveData<Resource<ExchangeRateView>> {
+    fun getExchangeRate(): LiveData<Resource<ExchangeView>> {
         return exchangeRateLiveDate
     }
 
-    fun getCurrencyListLiveData(): LiveData<Resource<List<CurrencyView>>> {
-        return currencyListLiveData
-    }
-
-    fun changeBaseExchangeCurrency(base: String) {
-        currentExchangeCurrency = base
+    fun changeBaseExchangeCurrency(currency: CurrencyView) {
+        currentExchangeCurrency = currenciesViewMapper.mapFromView(currency)
+        getExchangeRateUseCase.clear()
+        updateExchangeRate()
     }
 
     fun updateExchangeRate() {
-        exchangeRateLiveDate.postValue(Resource(ResourceState.LOADING, null, null))
+//        exchangeRateLiveDate.postValue(Resource(ResourceState.LOADING, null, null))
         getExchangeRateUseCase.execute(
             ExchangeRateSubscriber(),
-            GetExchangeRateUseCase.Params.fromExchangeRate(currentExchangeCurrency)
+            GetExchangeRateUseCase.Params.fromExchangeRate(currentExchangeCurrency.currency)
         )
     }
 
@@ -53,45 +50,42 @@ class ExchangeRateViewModel(
         super.onCleared()
     }
 
-    inner class ExchangeRateSubscriber : DisposableObserver<ExchangeRate>() {
+    fun pauseUpdate(isUpdating: Boolean) {
+        this.isUpdating = isUpdating
+    }
+
+    inner class ExchangeRateSubscriber() :
+        DisposableObserver<ExchangeRate>() {
         override fun onComplete() {
 
         }
 
-        override fun onNext(exchangerate: ExchangeRate) {
+        override fun onNext(exchangeRate: ExchangeRate) {
 
-            if (currencyListLiveData.value == null) {
-                getCurrenciesUseCase.execute(
-                    GetCurrencyListSubscriber(),
-                    GetCurrenciesUseCase.Params.createFromCurrencies(exchangerate.base, exchangerate.rates)
-                )
-
+            if (isUpdating)
+                return
+            val sortParams = SortCurrenciesUseCase.Params.fromSortCurrencies(
+                currentExchangeCurrency,
+                exchangeRate.rates
+            )
+            val result = sortCurrenciesUseCase.execute(sortParams).map {
+                currenciesViewMapper.mapToView(it)
             }
+
             exchangeRateLiveDate.postValue(
                 Resource(
                     ResourceState.SUCCESS,
-                    exchangeRateViewMapper.mapToView(exchangerate),
+                    ExchangeView(result, exchangeRate.rates),
                     null
                 )
             )
+
         }
 
         override fun onError(e: Throwable) {
-            exchangeRateLiveDate.postValue(Resource(ResourceState.ERROR, null, e.localizedMessage))
+            exchangeRateLiveDate.postValue(Resource(ResourceState.ERROR, null, errorHandler.getErrorMessage(e)))
         }
     }
 
-    inner class GetCurrencyListSubscriber : DisposableSingleObserver<List<Currency>>() {
-        override fun onSuccess(currencies: List<Currency>) {
-            val data = currencies.map {
-                currenciesViewMapper.mapToView(it)
-            }
-            currencyListLiveData.postValue(Resource(ResourceState.SUCCESS, data, null))
-        }
-
-        override fun onError(e: Throwable) {
-            currencyListLiveData.postValue(Resource(ResourceState.ERROR, null, e.localizedMessage))
-        }
-    }
 
 }
