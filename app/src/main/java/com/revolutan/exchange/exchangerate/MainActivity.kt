@@ -2,6 +2,7 @@ package com.revolutan.exchange.exchangerate
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity(),
                     updateExchangeRate(it.data?.rates!!)
                     updateCurrenciesList(it.data?.currencies!!)
                     hideLoading()
+                    hideMessage()
                 }
                 ResourceState.ERROR -> {
                     hideLoading()
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity(),
                 }
                 ResourceState.LOADING -> {
                     showLoading()
+                    showError(getString(R.string.loading))
                 }
             }
         })
@@ -53,7 +56,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showLoading() {
-        progressBar.visibility = View.VISIBLE
+        if (exchangeRateAdapter.itemCount == 0) {
+            progressBar.visibility = View.VISIBLE
+            statusTextView.text = getString(R.string.loading)
+            statusTextView.visibility = View.VISIBLE
+        }
 
     }
 
@@ -62,10 +69,18 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    private fun hideMessage() {
+        statusTextView.visibility = View.INVISIBLE
+    }
+
     private fun showError(errorMsg: String) {
 
-        statusTextView.text = errorMsg
-        statusTextView.visibility = View.VISIBLE
+        if (exchangeRateAdapter.itemCount == 0) {
+            statusTextView.text = errorMsg
+            statusTextView.visibility = View.VISIBLE
+        } else {
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
+        }
 
     }
 
