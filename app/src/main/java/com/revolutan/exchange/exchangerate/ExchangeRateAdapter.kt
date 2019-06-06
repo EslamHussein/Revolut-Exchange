@@ -46,7 +46,14 @@ class ExchangeRateAdapter(
 
 
         holder.currencyValueEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
+            override fun afterTextChanged(exchange: Editable?) {
+
+                if (position == 0 && exchange != null && exchange.toString().toDoubleOrNull() !=null) {
+                    baseExchange = exchange.toString().toDouble()
+                    data[0].apply {
+                        value = baseExchange
+                    }
+                }
                 onChangingListener.updating(false)
 
             }
@@ -56,12 +63,7 @@ class ExchangeRateAdapter(
             }
 
             override fun onTextChanged(exchange: CharSequence?, start: Int, before: Int, count: Int) {
-                if (position == 0 && exchange != null) {
-                    baseExchange = exchange.toString().toDouble()
-                    data[0].apply {
-                        value = baseExchange
-                    }
-                }
+
                 onChangingListener.updating(true)
 
             }

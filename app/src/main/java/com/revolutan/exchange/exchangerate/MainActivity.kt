@@ -15,9 +15,6 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(),
     ExchangeRateAdapter.ExchangeRateOnChangingListener {
-
-
-
     private val viewModel: ExchangeRateViewModel by inject()
     private lateinit var exchangeRateAdapter: ExchangeRateAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
