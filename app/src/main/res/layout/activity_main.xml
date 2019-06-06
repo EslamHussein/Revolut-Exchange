@@ -7,7 +7,7 @@
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".exchangerate.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
 

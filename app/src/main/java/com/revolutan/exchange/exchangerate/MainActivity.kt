@@ -1,4 +1,4 @@
-package com.revolutan.exchange
+package com.revolutan.exchange.exchangerate
 
 import android.os.Bundle
 import android.view.View
@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.revolutan.exchange.R
 import com.revolutan.presentation.ExchangeRateViewModel
 import com.revolutan.presentation.model.CurrencyView
 import com.revolutan.presentation.state.ResourceState
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity(), ExchangeRateAdapter.ExchangeRateOnChangingListener {
+class MainActivity : AppCompatActivity(),
+    ExchangeRateAdapter.ExchangeRateOnChangingListener {
 
 
 

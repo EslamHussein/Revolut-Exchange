@@ -1,4 +1,4 @@
-package com.revolutan.exchange
+package com.revolutan.exchange.exchangerate
 
 import android.content.Context
 import android.text.Editable
@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.revolutan.exchange.R
 import com.revolutan.presentation.model.CurrencyView
 import kotlinx.android.synthetic.main.currency_item_view.view.*
 
@@ -70,7 +71,12 @@ class ExchangeRateAdapter(
 
     fun updateData(updatedList: List<CurrencyView>) {
 
-        val diffResult = DiffUtil.calculateDiff(ExchangeRatesDiffCallback(data, updatedList))
+        val diffResult = DiffUtil.calculateDiff(
+            ExchangeRatesDiffCallback(
+                data,
+                updatedList
+            )
+        )
         this.data = updatedList
         diffResult.dispatchUpdatesTo(this)
 

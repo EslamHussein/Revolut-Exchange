@@ -1,4 +1,4 @@
-package com.revolutan.exchange
+package com.revolutan.exchange.exchangerate
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
