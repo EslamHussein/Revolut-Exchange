@@ -1,13 +1,13 @@
 package com.revolutan.presentation.error
 
+import android.content.res.Resources
 import com.revolutan.presentation.R
-import com.revolutan.presentation.resource.AppResources
 import java.io.IOException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-internal class DefaultErrorHandler constructor(private val resourceManager: AppResources) : ErrorHandler {
+internal class DefaultErrorHandler constructor(private val resourceManager: Resources) : ErrorHandler {
     override fun getErrorMessage(error: Throwable): String {
 
         return when (error) {
