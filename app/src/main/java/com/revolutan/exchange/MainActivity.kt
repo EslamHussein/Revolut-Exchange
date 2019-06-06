@@ -12,7 +12,7 @@ import com.revolutan.presentation.state.ResourceState
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity(), ExchangeRateAdapter.ExchangeRateOnItemClickListener {
+class MainActivity : AppCompatActivity(), ExchangeRateAdapter.ExchangeRateOnChangingListener {
 
 
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), ExchangeRateAdapter.ExchangeRateOnItem
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        exchangeRateAdapter = ExchangeRateAdapter(onItemClickListener = this)
+        exchangeRateAdapter = ExchangeRateAdapter(onChangingListener = this)
         viewManager = LinearLayoutManager(this)
 
         exchangeRateRecyclerView.apply {
@@ -78,11 +78,11 @@ class MainActivity : AppCompatActivity(), ExchangeRateAdapter.ExchangeRateOnItem
         exchangeRateAdapter.updateData(currencies)
     }
 
-    override fun onItemClick(currency: CurrencyView) {
+    override fun onchange(currency: CurrencyView) {
         viewModel.changeBaseExchangeCurrency(currency)
     }
 
-    override fun changingExchangeValue(isUpdating: Boolean) {
+    override fun updating(isUpdating: Boolean) {
         viewModel.pauseUpdate(isUpdating)
     }
 

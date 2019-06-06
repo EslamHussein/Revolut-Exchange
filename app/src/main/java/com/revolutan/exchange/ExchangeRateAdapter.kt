@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.currency_item_view.view.*
 class ExchangeRateAdapter(
     private var data: List<CurrencyView> = emptyList(),
     private var rates: Map<String, Double>? = null,
-    private var onItemClickListener: ExchangeRateOnItemClickListener
+    private var onChangingListener: ExchangeRateOnChangingListener
 ) :
     RecyclerView.Adapter<ExchangeRateAdapter.ExchangeRateViewHolder>() {
     private var baseExchange: Double = 1.0
@@ -46,7 +46,7 @@ class ExchangeRateAdapter(
 
         holder.currencyValueEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                onItemClickListener.changingExchangeValue(false)
+                onChangingListener.updating(false)
 
             }
 
@@ -61,7 +61,7 @@ class ExchangeRateAdapter(
                         value = baseExchange
                     }
                 }
-                onItemClickListener.changingExchangeValue(true)
+                onChangingListener.updating(true)
 
             }
         })
@@ -92,20 +92,20 @@ class ExchangeRateAdapter(
                 if (adapterPosition > 0) {
                     data[adapterPosition].also {
                         baseExchange = it.value
-                        onItemClickListener.onItemClick(it)
+                        onChangingListener.onchange(it)
                     }
                 }
                 if (adapterPosition == 0) {
-                    onItemClickListener.changingExchangeValue(true)
+                    onChangingListener.updating(true)
                 }
             }
         }
 
     }
 
-    interface ExchangeRateOnItemClickListener {
-        fun onItemClick(currency: CurrencyView)
-        fun changingExchangeValue(isUpdating: Boolean)
+    interface ExchangeRateOnChangingListener {
+        fun onchange(currency: CurrencyView)
+        fun updating(isUpdating: Boolean)
     }
 
 
